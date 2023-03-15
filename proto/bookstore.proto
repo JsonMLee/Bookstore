@@ -1,0 +1,76 @@
+// protobuf version 3
+syntax = "proto3";
+
+option go_package = "cs.williams.edu/cs339-s23/23jml8-24ys5/bookstore/client-go/proto/";
+package bookstore;
+
+service BookStore {
+  // Sends a greeting
+  rpc Hello (HelloRequest) returns (HelloReply) {}
+  // Search for books by topic
+  rpc Search (BookTopicRequest) returns (BookListReply) {}
+  // Get book info by id
+  rpc Lookup (ItemNumberRequest) returns (BookInfoReply) {}
+  // Buy a book by id
+  rpc Buy (ItemNumberRequest) returns (BuyBookReply) {}
+}
+
+// A book object
+message Book {
+  int32 id = 1;
+  string title = 2;
+  string topic = 3;
+  int32 stock = 4;
+  // it's a bad idea to use double to represent money but here we'll go easy
+  double price = 5;
+}
+
+/* List of Requests */
+
+message BookTopicRequest {
+  string topic = 1;
+}
+
+message ItemNumberRequest {
+  int32 id = 1;
+}
+
+/* List of Replies */
+
+message BookListReply {
+  // returns true if server successfully processed the request (books might still be empty)
+  bool success = 1;
+  // error message if success is false
+  string message = 2;
+  // list of books (might be empty)
+  repeated Book books = 3;
+}
+
+message BookInfoReply {
+  // true only if book is found
+  bool success = 1;
+  // error message if success is false
+  string message = 2;
+  // book info
+  Book book = 3;
+}
+
+message BuyBookReply {
+  // true only if book exists and bought successfully (i.e. in stock)
+  bool success = 1;
+  // error message if success is false
+  string message = 2;
+}
+
+/* Activity Check */
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  // "Hello " + name + "!"
+  string hello_message = 1;
+}

@@ -1,0 +1,13 @@
+.vscode/
+.idea/
+.ipynb_checkpoints/
+
+# compiled protobuf files
+*.pb.*
+
+# compiled output
+client-go/client-go
+server/target/
+
+# database file
+server/database.db

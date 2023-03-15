@@ -1,0 +1,47 @@
+[package]
+name = "bookstore-server"
+description = "A Simple Bookstore Server powered by gRPC and SQLite"
+version = "0.1.0"
+edition = "2021"
+default-run = "server"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+# binary for actual server
+name = "server"
+path = "src/main.rs"
+
+[[bin]]
+# binary to initialize database
+name = "db-init"
+path = "src/db_init.rs"
+
+[[bin]]
+# binary for perf evaluation
+name = "eval"
+path = "src/eval/main.rs"
+
+[[bin]]
+# binary for perf evaluation using different no of threads
+name = "eval-thread"
+path = "src/eval/eval_thread.rs"
+
+[[bin]]
+# binary for hello world server
+name = "helloworld-server"
+path = "src/helloworld.rs"
+
+[dependencies]
+tonic = "0.8"  # for gRPC
+prost = "0.11" # for protobuf stub implementations
+tokio = { version = "1.0", features = ["rt-multi-thread", "macros", "fs"] }  # async runtime
+futures-util = "0.3.26" # convenient functions with futures
+r2d2_sqlite = "0.21.0" # interface between r2d2 and rusqlite
+r2d2 = "0.8.10" # database connection pool library
+rusqlite = { version = "0.28.0", features = ["bundled"] }  # handles actual communication with sqlite
+chrono = "0.4.23" # for time
+clap = { version = "4.1.8", features = ["derive"] } # for CLI arg parsing
+
+[build-dependencies]
+tonic-build = "0.8" # generate gRPC stub during building
